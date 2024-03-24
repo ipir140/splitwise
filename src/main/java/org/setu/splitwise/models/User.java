@@ -5,7 +5,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name = "User1")
+@Table(name = "_user")
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,9 +18,5 @@ public class User {
 
     @NotEmpty(message = "Name cannot be empty")
     private String name;
-
-    @NotEmpty(message = "Email cannot be empty")
-    @Column(unique = true)
-    private String email;
 }
 
