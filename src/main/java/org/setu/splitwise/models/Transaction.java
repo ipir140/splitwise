@@ -11,6 +11,7 @@ import org.setu.splitwise.Utils.JsonUtils;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Entity
@@ -36,6 +37,10 @@ public class Transaction {
 
     @NotNull
     private Double totalAmountLent;
+
+    @Column(name = "transaction_timestamp")
+    @NotNull
+    private LocalDateTime timestamp;
 
     public Map<Long, Double> getBorrowerIdToAmount() throws JsonProcessingException {
         return JsonUtils.objectMapper.readValue(borrowerIdToAmountString, new TypeReference<Map<Long, Double>>() {});

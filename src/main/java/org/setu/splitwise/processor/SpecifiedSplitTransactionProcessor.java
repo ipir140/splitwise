@@ -1,6 +1,7 @@
 package org.setu.splitwise.processor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.setu.splitwise.Utils.DateTimeUtils;
 import org.setu.splitwise.dtos.transaction.BaseTransactionRequest;
 import org.setu.splitwise.dtos.transaction.EqualSplitTransactionRequest;
 import org.setu.splitwise.dtos.transaction.SpecifiedSplitTransactionRequest;
@@ -29,6 +30,7 @@ public class SpecifiedSplitTransactionProcessor implements TransactionProcessor 
         Transaction transaction = Transaction.builder()
                 .groupId(specifiedSplitTransactionRequest.getGroupId())
                 .lenderId(specifiedSplitTransactionRequest.getLenderId())
+                .timestamp(DateTimeUtils.toLocalDateTime(specifiedSplitTransactionRequest.getTimestamp()))
                 .totalAmountLent(borrowerSumValue)
                 .build();
         transaction.setBorrowerIdToAmount(specifiedSplitTransactionRequest.getBorrowerIdToAmount());
