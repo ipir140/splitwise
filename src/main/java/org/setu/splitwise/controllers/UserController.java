@@ -1,10 +1,9 @@
 package org.setu.splitwise.controllers;
 
-import org.setu.splitwise.dtos.CreateUserRequest;
-import org.setu.splitwise.dtos.UserResponse;
+import org.setu.splitwise.dtos.user.CreateUserRequest;
+import org.setu.splitwise.dtos.user.UserResponse;
 import org.setu.splitwise.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,21 +23,14 @@ public class UserController {
             return new ResponseEntity<>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
 
-        try {
-            UserResponse createdUser = userService.createUser(request);
-            return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-        } catch (DataIntegrityViolationException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        }
+        UserResponse createdUser = userService.createUser(request);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        Optional<UserResponse> user = userService.findById(id);
-        if (user.isPresent()) {
-            return new ResponseEntity<>(user.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        Optional<UserResponse> userOptional = userService.findById(id);
+        return userOptional.map(userResponse -> new ResponseEntity<>(userResponse, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

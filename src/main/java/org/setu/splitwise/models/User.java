@@ -5,7 +5,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name = "_user")
+@Table(name = "user_data")
 @Data
 @Builder
 @NoArgsConstructor

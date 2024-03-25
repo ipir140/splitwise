@@ -1,4 +1,4 @@
-package org.setu.splitwise.dtos;
+package org.setu.splitwise.dtos.group;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,16 +7,17 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
+public class GroupResponse {
 
     @NotNull
-    private Long id;
+    private String id;
 
     @NotEmpty
-    private String name;
+    private Set<Long> userIds;
 }

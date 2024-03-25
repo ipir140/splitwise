@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "_groups")
+@Table(name = "group_data")
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,9 +18,11 @@ import java.util.Set;
 public class Group {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "PR_KEY", unique = true)
+    private String id;
 
     @ElementCollection
-    private Set<Long> userIds = new HashSet<>();
+    private Set<Long> userIds;
 }

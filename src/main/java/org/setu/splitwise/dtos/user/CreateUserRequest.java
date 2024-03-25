@@ -1,23 +1,17 @@
-package org.setu.splitwise.dtos;
+package org.setu.splitwise.dtos.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupResponse {
+public class CreateUserRequest {
 
-    @NotNull
-    private Long id;
-
-    @NotEmpty
-    private Set<Long> userIds;
+    @NotEmpty(message = "Name cannot be empty")
+    private String name;
 }
