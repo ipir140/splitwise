@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "b1dc3c0a-6c35-435c-aaa1-f97f59de4db8",
+		"name": "User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20110375"
+	},
+	"item": [
+		{
+			"name": "get user by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/api/users/1"
+			},
+			"response": []
+		},
+		{
+			"name": "create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"a5\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/api/users/create"
+			},
+			"response": []
+		}
+	]
+}
