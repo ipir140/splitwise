@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "0be9aabf-92b1-40b2-942a-7a3e2e4580cd",
+		"name": "Group",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20110375"
+	},
+	"item": [
+		{
+			"name": "get group by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/api/groups/baf8507c-1627-4090-a8a6-51ea0401c8a4"
+			},
+			"response": []
+		},
+		{
+			"name": "get balance of group Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/api/groups/1_3/balance"
+			},
+			"response": []
+		},
+		{
+			"name": "get groups of user by userId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/api/groups/user/3"
+			},
+			"response": []
+		},
+		{
+			"name": "create group",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userIds\": [1, 2, 3]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/api/groups"
+			},
+			"response": []
+		},
+		{
+			"name": "record direct transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"direct\",\n    \"lenderId\": 1,\n    \"totalAmountLent\": 20.0,\n    \"borrowerId\": 3,\n    \"timestamp\": 1679738979000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/api/groups/record"
+			},
+			"response": []
+		},
+		{
+			"name": "record specified transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"specifiedSplit\",\n    \"lenderId\": 2,\n    \"groupId\": \"52cf06f3-7549-4099-937d-f5537a367d7f\",\n    \"borrowerIdToAmount\": {\n        \"1\": 100\n    },\n    \"timestamp\": 1679738979000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/api/groups/record"
+			},
+			"response": []
+		},
+		{
+			"name": "record percentage transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"percentageSplit\",\n    \"lenderId\": 1,\n    \"groupId\": \"baf8507c-1627-4090-a8a6-51ea0401c8a4\",\n    \"totalAmountLent\": 20.0,\n    \"borrowerIdToPercentage\": {\n        \"2\": 20,\n        \"3\": 80\n    },\n    \"timestamp\": 1679738979000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/api/groups/record"
+			},
+			"response": []
+		},
+		{
+			"name": "record equal transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"equalSplit\",\n    \"lenderId\": 1,\n    \"groupId\": \"baf8507c-1627-4090-a8a6-51ea0401c8a4\",\n    \"totalAmountLent\": 20.0,\n    \"borrowers\": [2,3],\n    \"timestamp\": 1679738979000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/api/groups/record"
+			},
+			"response": []
+		}
+	]
+}
