@@ -1,5 +1,6 @@
 package org.setu.splitwise.processor;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.setu.splitwise.dtos.transaction.BaseTransactionRequest;
 import org.setu.splitwise.dtos.transaction.DirectTransactionRequest;
 import org.setu.splitwise.models.Transaction;
@@ -16,7 +17,7 @@ public class DirectTransactionProcessor implements TransactionProcessor {
     }
 
     @Override
-    public Transaction processTransaction(BaseTransactionRequest request) {
+    public Transaction processTransaction(BaseTransactionRequest request) throws JsonProcessingException {
         DirectTransactionRequest directTransactionRequest = (DirectTransactionRequest) request;
 
 
@@ -24,10 +25,11 @@ public class DirectTransactionProcessor implements TransactionProcessor {
            this.put(directTransactionRequest.getBorrowerId(), directTransactionRequest.getTotalAmountLent());
         }};
 
-        return Transaction.builder()
+        Transaction transaction = Transaction.builder()
                 .lenderId(directTransactionRequest.getLenderId())
                 .totalAmountLent(directTransactionRequest.getTotalAmountLent())
-                .borrowerIdToAmount(borrowerIdToAmount)
                 .build();
+        transaction.setBorrowerIdToAmount(borrowerIdToAmount);
+        return transaction;
     }
 }

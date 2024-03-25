@@ -1,6 +1,7 @@
 package org.setu.splitwise.services;
 
 import org.setu.splitwise.dtos.group.CreateGroupRequest;
+import org.setu.splitwise.dtos.group.GroupBalanceResponse;
 import org.setu.splitwise.dtos.group.GroupResponse;
 import org.setu.splitwise.dtos.group.CreateInternalGroupRequest;
 import org.setu.splitwise.exceptions.UserNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,12 +33,13 @@ public class GroupService {
             throw new UserNotFoundException(nonExistingUserIds);
         }
 
-        Group createdGroup = groupRepository.save(
-                Group.builder()
-                        .userIds(request.getUserIds().stream().collect(Collectors.toSet()))
-                        .build()
-        );
-
+        Group createRequest = Group.builder()
+                .id(UUID.randomUUID().toString())
+                .build();
+        createRequest.setUserIds(request.getUserIds().stream().collect(Collectors.toSet()));
+        System.out.println(createRequest.toString());
+        Group createdGroup = groupRepository.save(createRequest);
+        System.out.println(createdGroup.toString());
         return GroupResponse.builder()
                 .id(createdGroup.getId())
                 .userIds(createdGroup.getUserIds())
@@ -50,12 +53,11 @@ public class GroupService {
             throw new UserNotFoundException(nonExistingUserIds);
         }
 
-        Group createdGroup = groupRepository.save(
-                Group.builder()
-                        .id(request.getId())
-                        .userIds(request.getUserIds().stream().collect(Collectors.toSet()))
-                        .build()
-        );
+        Group createRequest = Group.builder()
+                .id(request.getId())
+                .build();
+        createRequest.setUserIds(request.getUserIds().stream().collect(Collectors.toSet()));
+        Group createdGroup = groupRepository.save(createRequest);
 
         return GroupResponse.builder()
                 .id(createdGroup.getId())
@@ -77,9 +79,11 @@ public class GroupService {
     }
 
     public List<GroupResponse> getGroupsOfUser(Long userId) {
-        List<Group> groups = groupRepository.findAllByUserIdsContains(userId);
+        List<Group> allGroups = groupRepository.findAll();
+//        List<Group> groups = groupRepository.findAllByUserIdsContains(userId);
 
-        return groups.stream()
+        return allGroups.stream()
+                .filter(group -> group.getUserIds().contains(userId))
                 .map(group -> new GroupResponse(group.getId(), group.getUserIds()))
                 .collect(Collectors.toList());
     }

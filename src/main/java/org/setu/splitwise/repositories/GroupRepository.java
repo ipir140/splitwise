@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface GroupRepository extends JpaRepository<Group, String> {
 
-    @Query("SELECT g FROM Group g WHERE :userId MEMBER OF g.userIds")
-    List<Group> findAllByUserIdsContains(Long userId);
+//    @Query("SELECT g FROM Group g WHERE :userId IN elements(g.userIds)")
+//    List<Group> findAllByUserIdsContains(Long userId);
+//    @Query(value = "SELECT * FROM group_data WHERE :userId = ANY (user_ids::jsonb)", nativeQuery = true)
+//    List<Group> findByUserId(@Param("userId") Long userId);
 }

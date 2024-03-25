@@ -1,5 +1,6 @@
 package org.setu.splitwise.processor;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.setu.splitwise.dtos.transaction.BaseTransactionRequest;
 import org.setu.splitwise.dtos.transaction.EqualSplitTransactionRequest;
 import org.setu.splitwise.models.Transaction;
@@ -16,18 +17,19 @@ public class EqualSplitTransactionProcessor implements TransactionProcessor {
     }
 
     @Override
-    public Transaction processTransaction(BaseTransactionRequest request) {
+    public Transaction processTransaction(BaseTransactionRequest request) throws JsonProcessingException {
         EqualSplitTransactionRequest equalSplitTransactionRequest = (EqualSplitTransactionRequest) request;
 
         Double borrowedAmount = equalSplitTransactionRequest.getTotalAmountLent() / equalSplitTransactionRequest.getBorrowers().size();
         Map<Long, Double> borrowerIdToAmount = equalSplitTransactionRequest.getBorrowers().stream()
                 .collect(Collectors.toMap(borrowerId -> borrowerId, borrowerId -> borrowedAmount));
 
-        return Transaction.builder()
+        Transaction transaction = Transaction.builder()
                 .groupId(equalSplitTransactionRequest.getGroupId())
                 .lenderId(equalSplitTransactionRequest.getLenderId())
                 .totalAmountLent(equalSplitTransactionRequest.getTotalAmountLent())
-                .borrowerIdToAmount(borrowerIdToAmount)
                 .build();
+        transaction.setBorrowerIdToAmount(borrowerIdToAmount);
+        return transaction;
     }
 }

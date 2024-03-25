@@ -31,6 +31,6 @@ public class UserController {
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         Optional<UserResponse> userOptional = userService.findById(id);
         return userOptional.map(userResponse -> new ResponseEntity<>(userResponse, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 }

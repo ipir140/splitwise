@@ -1,9 +1,12 @@
 package org.setu.splitwise.models;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.setu.splitwise.Utils.JsonUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -28,10 +31,17 @@ public class Transaction {
     @NotNull
     private Long lenderId;
 
-    @NotEmpty
-    @ElementCollection
-    private Map<Long, Double> borrowerIdToAmount;
+    @NotNull
+    private String borrowerIdToAmountString;
 
     @NotNull
     private Double totalAmountLent;
+
+    public Map<Long, Double> getBorrowerIdToAmount() throws JsonProcessingException {
+        return JsonUtils.objectMapper.readValue(borrowerIdToAmountString, new TypeReference<Map<Long, Double>>() {});
+    }
+
+    public void setBorrowerIdToAmount(Map<Long, Double> borrowerIdToAmount) throws JsonProcessingException {
+        this.borrowerIdToAmountString = JsonUtils.objectMapper.writeValueAsString(borrowerIdToAmount);
+    }
 }

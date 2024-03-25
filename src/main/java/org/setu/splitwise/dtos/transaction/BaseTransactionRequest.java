@@ -19,7 +19,7 @@ import static org.setu.splitwise.Utils.Constants.*;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = EqualSplitTransactionRequest.class, name = EQUAL_SPLIT),
         @JsonSubTypes.Type(value = SpecifiedSplitTransactionRequest.class, name = SPECIFIED_SPLIT),
@@ -28,9 +28,6 @@ import static org.setu.splitwise.Utils.Constants.*;
 })
 public class BaseTransactionRequest {
 
-    @NotEmpty
+//    @NotEmpty(message = "type cannot be empty")
     private String type;
-
-    @NotNull(message = "lenderId cannot be null")
-    private Long lenderId;
 }
